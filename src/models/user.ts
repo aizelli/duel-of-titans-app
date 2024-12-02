@@ -1,5 +1,10 @@
-export interface User{
-    email: string;
+export interface User {
     id: number;
-    role: string;
-}
+    name: string;
+    email: string;
+    password: string;
+    type: string;
+    createAt: string;
+    updateAt: string;
+    characters: string[]; 
+  }

@@ -1,13 +1,20 @@
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from '../../App';
 import React from "react";
 import { useState } from "react"
-import { Alert, Button, Text, TextInput, View, StyleSheet } from "react-native";
+import { Alert, Button, Text, TextInput, View, StyleSheet, TouchableOpacity } from "react-native";
 import { login } from "src/controllers/authController";
+
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, "Login">
 
 const LoginScreen: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    
+    const navigation = useNavigation<LoginScreenNavigationProp>();
 
-    const handlerLogin = async () => {
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert("Erro", "Preencha todos os campos.");
             return;
@@ -16,12 +23,11 @@ const LoginScreen: React.FC = () => {
         try {
             const user = await login({ email, password });
             if (user) {
-                Alert.alert("Sucesso", "Bemvindo, ${user.email}!");
-                console.log("ID", user.id);
-                console.log("Role", user.role);
+                navigation.navigate("CharactersList")
             }
         } catch (error) {
-            Alert.alert("Error");
+            const err = error as Error;
+            Alert.alert("Erro", err.message);
         }
     };
     return (
@@ -42,7 +48,13 @@ const LoginScreen: React.FC = () => {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Entrar" onPress={handlerLogin} />
+            <Button title="Entrar" onPress={handleLogin} />
+            <TouchableOpacity
+                style={styles.registerButton}
+                onPress={() => navigation.navigate("Register")}
+            >
+                <Text style={styles.registerText}>Não tem uma conta? Cadastre-se</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -66,6 +78,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 12,
         paddingHorizontal: 8,
+    },
+    registerButton: {
+        marginTop: 16,
+        alignItems: "center",
+    },
+    registerText: {
+        color: "#007BFF",
+        fontWeight: "bold",
     },
 });
 
