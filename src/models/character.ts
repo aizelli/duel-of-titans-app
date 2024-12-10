@@ -13,4 +13,5 @@ export interface Character {
     createAt: string;
     updateAt: string;
     status: Status;
+    userId: number;
 }

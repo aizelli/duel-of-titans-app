@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../App"; // Ajuste o caminho se necessário
+import { RootStackParamList } from "../../App";
 import { registerUser, validatePassword } from "../controllers/authController";
 
 type RegisterScreenNavigationProp = StackNavigationProp<RootStackParamList, "Register">;
